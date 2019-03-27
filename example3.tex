@@ -1,0 +1,84 @@
+\documentclass{article}
+
+\usepackage[linesnumbered,ruled,vlined,boxed]{algorithm2e}%[ruled,vlined]{
+
+
+\begin{document}
+
+
+\begin{algorithm}
+    \caption{assign labels}
+    \LinesNumbered
+    \KwIn{$focus \; and\; previous\; rows \;of \;A, previous\;
+    row \;of \;Q, label \;directory \;D$}
+    \KwOut{$current\; row \;of\; Q$}
+
+    \For{  $column = 1\; to \;M$}
+    {
+        \If{$class  \not= noData$}
+        {
+            \If{$class \not= classUp \;and \;class \not=classLeft$}
+            {
+                assign New Label; \\ 
+                add New Label To Directory;
+            }
+            \Else
+            {
+                \If{$class \not= classUp\; and \;class = classLeft$}
+                {
+                    assign Left Label;
+                }
+                \Else
+                {
+                    \If{$class = classUp\; and \;class \not=classLeft$}
+                    {
+                        assign UpLabel;
+                    }
+                    \Else
+                    {
+                        \If{$LeftLabel = UpLabel$}
+                        {
+                            assign UpLabel;
+                        }
+                        \Else
+                        {
+                            assign UpLabel; \\
+                            \If{$pass = 1$}
+                            {
+                                update Dictionary;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+\end{algorithm}
+
+
+
+\begin{algorithm}
+  \caption{Basic structure of r.clump}
+  \KwIn{Multi-categorical raster A}
+  \KwOut{Connected components labels raster Q}
+  \For{$row = 1\; to\; N$}
+  {
+    read focus and previous rows;\\
+    execute algorithm assign labels to assign\\
+    temporary labels to cells in the focus row;\\
+    update dictionary D with temporary labels;\\
+  }
+  re-order labels in dictionary to obtain consecutive numbering;
+  \For{$row = 1 \;to \;N$}
+  {
+    read focus and previous rows;\\
+    execute algorithm assign labels to assign final\\
+    labels to cells in the focus row;\\
+    update dictionary D with final labels;\\
+    write a focus row of labels to output Q;\\
+  }
+
+\end{algorithm}
+
+
+\end{document}

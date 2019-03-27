@@ -1,0 +1,70 @@
+\documentclass[11pt]{ctexart}
+\usepackage[top=2cm, bottom=2cm, left=2cm, right=2cm]{geometry}
+\usepackage{algorithm}
+\usepackage{algorithmicx}
+\usepackage{algpseudocode}
+\usepackage{amsmath}
+\renewcommand{\baselinestretch}{1.0}
+
+\floatname{algorithm}{Algorithm }
+\renewcommand{\algorithmicrequire}{\textbf{Input:}}
+\renewcommand{\algorithmicensure}{\textbf{Output:}}
+
+
+
+\begin{document}
+    \begin{algorithm}[H]
+        \setcounter{algorithm}{2}     %=这样能够显示算法的编号
+        \caption{simulated annealing}
+        \begin{algorithmic}[1] %每行显示行号
+            \Require point set array ps
+            \Ensure diameter
+
+            \Function {MinimalCircumscribedSphere}{$ ps$}
+        	\State const int $MAX=120;$
+        	\State const double $INF=1e20;$
+        	\State const double $eps=1e-6;$
+        	\State double $step=100;$
+        	\State double $diameter=INF;$
+        	\State Point q;
+        	\State $q.x=q.y=q.z=0;$
+        	\State int $k=1;$
+            \While{$step>eps$}
+        	\State int $d=MaxDis(q,ps);$
+    		\State double $tmp=PointDistance(ps[d],q);$
+    		\If {$tmp<diameter$}
+    		\State $diameter=tmp;$
+            \EndIf
+    		\State  double $dx=ps[d].x-q.x;$
+    		\State double $dy=ps[d].y-q.y;$
+    		\State double $dz=ps[d].z-q.z;$
+    		\State $dx/=tmp;dy/=tmp;dz/=tmp;$
+    		\State $q.x=q.x+dx*step;q.y=q.y+dy*step;q.z=q.z+dz*step;$
+    		\State $step*=0.98;$
+            \EndWhile
+
+            \EndFunction
+
+            \Function {PointDistance}{$ Point a,point b$}
+                \State $a.x-=b.x;a.y-=b.y;a.z-=b.z; $
+                \State \Return{$sqrt(a.x*a.x+a.y*a.y+a.z*a.z)$}
+            \EndFunction
+            \State
+
+            \Function {MaxDis}{$ point p,point *pointset$}
+                \State $res=0; k=0$
+                \For{$i=0$; $i<n$; $i++$ }
+                \State $tmp=PointDistance(p,pointset[i])$;
+                \If{ $tmp>res$}
+                \State $k=i$;
+                \State $ res=PointDistance(p,pointset[i])$;
+                \EndIf
+                \EndFor
+                \State \Return{$k$}
+            \EndFunction
+
+
+
+        \end{algorithmic}
+    \end{algorithm}
+\end{document}
